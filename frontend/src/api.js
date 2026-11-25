@@ -2,6 +2,7 @@ import { API_URL } from './config'
 
 async function request(path = '', options = {}) {
   let response
+
   try {
     response = await fetch(`${API_URL}${path}`, options)
   } catch {
@@ -10,10 +11,15 @@ async function request(path = '', options = {}) {
 
   if (response.status === 204) return null
 
-  const data = await response.json()
+  const contentType = response.headers.get('content-type') || ''
+  const data = contentType.includes('application/json')
+    ? await response.json()
+    : null
+
   if (!response.ok) {
-    throw new Error(data.error || 'Something went wrong.')
+    throw new Error(data?.error || `Server request failed (${response.status}).`)
   }
+
   return data
 }
 
@@ -37,4 +43,3 @@ export const dischargePatient = (id) =>
   request(`/${id}/discharge`, { method: 'PATCH' })
 
 export const deletePatient = (id) => request(`/${id}`, { method: 'DELETE' })
-const contentType = response.headers.get('content-type') || ''
