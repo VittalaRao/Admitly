@@ -37,3 +37,4 @@ export const dischargePatient = (id) =>
   request(`/${id}/discharge`, { method: 'PATCH' })
 
 export const deletePatient = (id) => request(`/${id}`, { method: 'DELETE' })
+const contentType = response.headers.get('content-type') || ''
