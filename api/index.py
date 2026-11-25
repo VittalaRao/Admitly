@@ -1,3 +1,4 @@
+
 import os
 from datetime import date
 from typing import Annotated, Literal
@@ -12,7 +13,7 @@ from pydantic import BaseModel, Field, StringConstraints, field_validator
 from pymongo import MongoClient
 from pymongo.errors import PyMongoError
 
-MONGO_URL = os.getenv("MONGO_URL", "mongodb://localhost:27017")
+MONGO_URL = os.getenv("MONGO_URL")
 
 client = MongoClient(MONGO_URL, serverSelectionTimeoutMS=3000)
 patients_collection = client["admitly"]["patients"]
